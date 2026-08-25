@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Miashop · Estúdio de Artes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Anton&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15120F;
+  --ink-2:#3B342C;
+  --muted:#8B8378;
+  --line:#E4DED5;
+  --line-2:#F0ECE6;
+  --paper:#FFFFFF;
+  --surface:#F7F5F1;
+  --stage:#26221F;
+  --stage-2:#181513;
+  --brand:#F18634;
+  --brand-dark:#CE6A17;
+  --brand-soft:#FDF0E3;
+  --ok:#2C7A57;
+  --danger:#B93B2B;
+  --r:10px;
+  --sh:0 1px 2px rgba(21,18,15,.06), 0 8px 24px -12px rgba(21,18,15,.18);
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--surface); color:var(--ink);
+  font-family:'Archivo',system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#D6CFC5;border-radius:10px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:#BDB4A8;background-clip:content-box;border:3px solid transparent}
+
+/* ───────────────────────── MARCA ───────────────────────── */
+.marca{display:inline-flex;align-items:center;gap:.5em;color:var(--ink);user-select:none}
+.marca svg{display:block;height:1.55em;width:auto;flex:none}
+.marca .palavra{
+  font-weight:800;letter-spacing:-.025em;font-size:1.28em;line-height:1;
+  white-space:nowrap;padding-top:.06em;
+}
+.marca.clara,.marca.clara .palavra{color:#fff}
+
+/* ───────────────────────── LOGIN ───────────────────────── */
+#tela-login{
+  position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;
+  background:
+    radial-gradient(900px 500px at 50% -10%, #FFF6EC 0%, transparent 60%),
+    var(--surface);
+}
+.cartao-login{
+  width:100%;max-width:390px;background:var(--paper);border:1px solid var(--line);
+  border-radius:16px;padding:34px 30px 28px;box-shadow:var(--sh);
+}
+.cartao-login .marca{font-size:19px;margin-bottom:26px}
+.eyebrow{
+  font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+}
+.campo{margin-bottom:14px}
+.campo label{display:block;margin-bottom:6px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.inp{
+  width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;
+  background:var(--paper);transition:border-color .15s, box-shadow .15s;
+}
+.inp:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(241,134,52,.16)}
+textarea.inp{resize:vertical;min-height:74px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:9px 16px;border-radius:9px;border:1px solid var(--line);
+  background:var(--paper);font-weight:600;font-size:13px;transition:.15s;
+}
+.btn:hover{background:var(--surface);border-color:#D5CDC2}
+.btn:active{transform:translateY(1px)}
+.btn.primario{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.primario:hover{background:#2A241E}
+.btn.laranja{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.laranja:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+.btn.perigo{color:var(--danger);border-color:#EBD3CE}
+.btn.perigo:hover{background:#FBF0EE}
+.btn.bloco{width:100%}
+.btn.mini{padding:5px 10px;font-size:12px;border-radius:7px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.aviso{font-size:12.5px;color:var(--danger);margin-top:10px;min-height:17px}
+.dica{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+
+/* ───────────────────────── APP ───────────────────────── */
+#app{display:none;flex-direction:column;height:100dvh}
+#app.on{display:flex}
+.topo{
+  display:flex;align-items:center;gap:18px;padding:0 16px;height:58px;flex:none;
+  background:var(--paper);border-bottom:1px solid var(--line);z-index:20;
+}
+.topo .marca{font-size:15px}
+.abas{display:flex;gap:2px;margin-left:6px;overflow-x:auto;scrollbar-width:none}
+.abas::-webkit-scrollbar{display:none}
+.aba{
+  padding:8px 13px;border-radius:8px;border:none;background:transparent;
+  font-weight:600;font-size:13px;color:var(--ink-2);white-space:nowrap;position:relative;
+}
+.aba:hover{background:var(--surface)}
+.aba.on{background:var(--ink);color:#fff}
+.topo-dir{margin-left:auto;display:flex;align-items:center;gap:8px}
+.chip-user{
+  display:flex;align-items:center;gap:8px;padding:5px 10px 5px 6px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--line);font-size:12.5px;font-weight:600;
+}
+.avatar{
+  width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;
+  display:grid;place-items:center;font-size:10.5px;font-weight:700;flex:none;
+}
+.avatar.master{background:var(--brand)}
+.icone-btn{
+  width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--paper);
+  display:grid;place-items:center;color:var(--ink-2);flex:none;
+}
+.icone-btn:hover{background:var(--surface);color:var(--ink)}
+.icone-btn svg{width:18px;height:18px}
+
+.painel{flex:1;overflow:auto;display:none}
+.painel.on{display:block}
+.miolo{max-width:1420px;margin:0 auto;padding:22px 20px 60px}
+
+.cabeca{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.cabeca h1{margin:2px 0 0;font-size:23px;font-weight:800;letter-spacing:-.02em}
+.cabeca p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.cabeca .acoes{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+.barra-busca{position:relative;flex:1;min-width:220px;max-width:420px}
+.barra-busca svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+.barra-busca .inp{padding-left:34px}
+
+/* ── grade de artes ── */
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px}
+.cartao{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;transition:.16s;position:relative;
+}
+.cartao:hover{border-color:#CFC6B9;box-shadow:var(--sh);transform:translateY(-2px)}
+.cartao .capa{
+  aspect-ratio:3/4;background:
+    linear-gradient(45deg,#EFEBE5 25%,transparent 25%,transparent 75%,#EFEBE5 75%) 0 0/16px 16px,
+    linear-gradient(45deg,#EFEBE5 25%,#F8F6F3 25%,#F8F6F3 75%,#EFEBE5 75%) 8px 8px/16px 16px;
+  display:grid;place-items:center;overflow:hidden;cursor:pointer;position:relative;
+}
+.cartao .capa img{width:100%;height:100%;object-fit:contain;display:block}
+.cartao .corpo{padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;flex:1}
+.cartao .nome{font-weight:700;font-size:13.5px;line-height:1.3;word-break:break-word}
+.cartao .sub{font-size:11.5px;color:var(--muted)}
+.cartao .rodape{display:flex;gap:6px;padding:0 10px 10px;flex-wrap:wrap}
+.tag{
+  display:inline-block;padding:2px 8px;border-radius:999px;background:var(--brand-soft);
+  color:var(--brand-dark);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+}
+.tag.cinza{background:var(--surface);color:var(--muted)}
+
+.vazio{
+  border:1px dashed #D8D0C4;border-radius:14px;padding:52px 24px;text-align:center;color:var(--muted);
+  background:linear-gradient(var(--paper),var(--surface));
+}
+.vazio h3{margin:0 0 6px;color:var(--ink);font-size:16px;font-weight:700}
+.vazio p{margin:0 auto 16px;max-width:400px;font-size:13px}
+
+/* ── palco / editor ── */
+.editor{position:fixed;inset:0;z-index:60;background:var(--stage-2);display:none;flex-direction:column}
+.editor.on{display:flex}
+.editor-topo{
+  height:54px;flex:none;display:flex;align-items:center;gap:12px;padding:0 12px;
+  background:var(--stage);border-bottom:1px solid #363130;color:#fff;
+}
+.editor-topo .titulo{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.editor-topo .dir{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn.escuro{background:#332E2C;border-color:#454040;color:#F2EEE9}
+.btn.escuro:hover{background:#413B38;border-color:#5A5350}
+.editor-corpo{flex:1;display:flex;min-height:0}
+.palco{
+  flex:1;overflow:auto;padding:26px;display:grid;place-items:center;
+  background:
+    radial-gradient(700px 400px at 50% 0%, #302B28 0%, transparent 70%),
+    var(--stage-2);
+}
+#canvas-palco{
+  background:#fff;box-shadow:0 20px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08);
+  max-width:100%;height:auto;touch-action:none;cursor:default;
+}
+.lateral{
+  width:314px;flex:none;background:var(--paper);border-left:1px solid var(--line);
+  overflow:auto;display:flex;flex-direction:column;
+}
+.lat-secao{padding:15px 16px;border-bottom:1px solid var(--line-2)}
+.lat-secao h4{
+  margin:0 0 11px;font-size:10.5px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);
+}
+.linha2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.linha3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.mini-lbl{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.inp.sm{padding:7px 9px;font-size:12.5px;border-radius:7px}
+input[type=color].inp{padding:3px;height:34px;cursor:pointer}
+.lista-campos{display:flex;flex-direction:column;gap:5px}
+.item-campo{
+  display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid var(--line);
+  border-radius:8px;background:var(--paper);font-size:12.5px;text-align:left;width:100%;
+}
+.item-campo:hover{background:var(--surface)}
+.item-campo.on{border-color:var(--brand);background:var(--brand-soft)}
+.item-campo .k{
+  font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--brand-dark);background:#fff;border:1px solid #F3DCC4;border-radius:5px;padding:1px 5px;flex:none;
+}
+.item-campo .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;color:var(--ink-2)}
+.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{flex:1;padding:7px 4px;border:none;background:var(--paper);font-size:12px;font-weight:600;color:var(--ink-2)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:#fff}
+.seg.laranja button.on{background:var(--brand);color:#fff}
+
+/* ── modal ── */
+.modal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(21,18,15,.5);backdrop-filter:blur(3px)}
+.modal.on{display:flex}
+.modal-cx{
+  background:var(--paper);border-radius:15px;width:100%;max-width:660px;max-height:90dvh;
+  display:flex;flex-direction:column;box-shadow:0 30px 70px -25px rgba(0,0,0,.5);overflow:hidden;
+}
+.modal-cx.largo{max-width:860px}
+.modal-topo{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.modal-topo h3{margin:0;font-size:16px;font-weight:800;letter-spacing:-.01em}
+.modal-topo .x{margin-left:auto}
+.modal-corpo{padding:18px;overflow:auto;flex:1}
+.modal-rodape{padding:13px 18px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;background:var(--surface)}
+
+.tabs-cfg{display:flex;gap:2px;padding:0 18px;border-bottom:1px solid var(--line);background:var(--paper)}
+.tab-cfg{padding:11px 13px;border:none;background:none;font-weight:600;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab-cfg.on{color:var(--ink);border-bottom-color:var(--brand)}
+
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+table.tb th{
+  text-align:left;padding:7px 9px;font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);
+}
+table.tb td{padding:8px 9px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+table.tb tr:last-child td{border-bottom:none}
+table.tb .acoes-td{text-align:right;white-space:nowrap}
+
+.perms{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:7px}
+.perm{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:8px;font-size:12.5px;cursor:pointer;user-select:none;
+}
+.perm.on{border-color:var(--brand);background:var(--brand-soft)}
+.perm input{accent-color:var(--brand);margin:0}
+
+.drop{
+  border:1.5px dashed #D5CCBF;border-radius:12px;padding:26px 18px;text-align:center;
+  background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer;transition:.15s;
+}
+.drop:hover,.drop.over{border-color:var(--brand);background:var(--brand-soft);color:var(--brand-dark)}
+.drop strong{color:var(--ink);display:block;font-size:14px;margin-bottom:3px}
+
+#toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:120;
+  background:var(--ink);color:#fff;padding:11px 17px;border-radius:10px;font-size:13px;font-weight:600;
+  opacity:0;pointer-events:none;transition:.22s;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);max-width:90vw;
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.erro{background:var(--danger)}
+#toast.ok{background:var(--ok)}
+
+#carregando{
+  position:fixed;inset:0;z-index:110;display:none;place-items:center;background:rgba(247,245,241,.82);backdrop-filter:blur(2px)
+}
+#carregando.on{display:grid}
+.spin{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:g .8s linear infinite}
+@keyframes g{to{transform:rotate(360deg)}}
+#carregando p{margin-top:12px;font-size:13px;font-weight:600;color:var(--ink-2);text-align:center}
+
+@media (max-width:880px){
+  .lateral{width:270px}
+  .miolo{padding:16px 13px 50px}
+}
+@media (max-width:720px){
+  .topo{height:auto;flex-wrap:wrap;padding:9px 12px;gap:9px}
+  .abas{order:3;width:100%;margin-left:0}
+  .editor-corpo{flex-direction:column}
+  .lateral{width:100%;border-left:none;border-top:1px solid var(--line);max-height:47dvh}
+  .palco{padding:14px}
+  .grade{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+  .editor-topo{flex-wrap:wrap;height:auto;padding:9px 10px;gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media print{body>*{display:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ LOGO REUTILIZÁVEL ══════════════════ -->
+<template id="tpl-marca">
+  <span class="marca">
+    <svg viewBox="0 0 88 84" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- aba da sacola: o furo da alça é vazado de verdade (fill-rule evenodd),
+           então nunca aparece fundo laranja/branco dentro dele -->
+      <path fill="currentColor" fill-rule="evenodd" d="
+        M13 6 h62 a6 6 0 0 1 6 6 v18 h-74 v-18 a6 6 0 0 1 6 -6 z
+        M32 13 h24 a4.6 4.6 0 0 1 0 9.2 h-24 a4.6 4.6 0 0 1 0 -9.2 z"/>
+      <!-- corpo da sacola -->
+      <path fill="currentColor" d="
+        M7 34.5 h74 v33 a10.5 10.5 0 0 1 -10.5 10.5 h-53 a10.5 10.5 0 0 1 -10.5 -10.5 z"/>
+    </svg>
+    <span class="palavra">MIASHOP</span>
+  </span>
+</template>
+
+<!-- ══════════════════ LOGIN ══════════════════ -->
+<div id="tela-login">
+  <div class="cartao-login">
+    <div id="login-marca"></div>
+
+    <div id="passo-url" style="display:none">
+      <div class="eyebrow" style="margin-bottom:9px">Primeiro acesso</div>
+      <div class="campo">
+        <label for="in-url">URL do Apps Script</label>
+        <input id="in-url" class="inp" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off">
+        <p class="dica">Cole aqui a URL <b>/exec</b> gerada ao publicar o Code.gs. Ela fica gravada neste navegador.</p>
+      </div>
+      <button class="btn primario bloco" id="bt-conectar">Conectar</button>
+      <div class="aviso" id="aviso-url"></div>
+    </div>
+
+    <div id="passo-login">
+      <div class="eyebrow" style="margin-bottom:14px">Estúdio de artes do marketing</div>
+      <div class="campo">
+        <label for="in-usuario">Usuário</label>
+        <input id="in-usuario" class="inp" placeholder="login ou MASTER" autocomplete="username">
+      </div>
+      <div class="campo">
+        <label for="in-senha">Senha</label>
+        <input id="in-senha" type="password" class="inp" placeholder="••••" autocomplete="current-password">
+      </div>
+      <button class="btn laranja bloco" id="bt-entrar">Entrar</button>
+      <div class="aviso" id="aviso-login"></div>
+      <p class="dica">Acesso master: usuário <b>MASTER</b>.</p>
+      <button class="btn mini" id="bt-trocar-url" style="margin-top:14px;width:100%">Trocar URL do servidor</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ APLICAÇÃO ══════════════════ -->
+<div id="app">
+  <header class="topo">
+    <div id="topo-marca"></div>
+    <nav class="abas" id="nav-abas"></nav>
+    <div class="topo-dir">
+      <div class="chip-user" id="chip-user"></div>
+      <button class="icone-btn" id="bt-config" title="Configurações: filiais, usuários e senha master">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6 1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.6.66 1.03 1.28 1.09H21a2 2 0 1 1 0 4h-.09c-.62.06-1.14.49-1.28 1.09z"/>
+        </svg>
+      </button>
+      <button class="icone-btn" id="bt-sair" title="Sair">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ─────────── ABA 1: MODELOS EDITÁVEIS ─────────── -->
+  <section class="painel" data-painel="modelos">
+    <div class="miolo">
+      <div class="cabeca">
+        <div>
+          <div class="eyebrow">Aba 1</div>
+          <h1>Modelos editáveis</h1>
+          <p>Troque código, descrição e valor e leve para impressão.</p>
+        </div>
+        <div class="acoes">
+          <div class="barra-busca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input class="inp" id="busca-modelos" placeholder="Buscar modelo pelo nome...">
+          </div>
+          <button class="btn laranja so-master" id="bt-novo-modelo">+ Novo modelo</button>
+        </div>
+      </div>
+      <div class="grade" id="grade-modelos"></div>
+    </div>
+  </section>
+
+  <!-- ─────────── ABA 2: ARTES FIXAS ─────────── -->
+  <section class="painel" data-painel="artes">
+    <div class="miolo">
+      <div class="cabeca">
+        <div>
+          <div class="eyebrow">Aba 2</div>
+          <h1>Artes fixas</h1>
+          <p>Galeria oficial. Só imprimir ou exportar — o conteúdo não muda.</p>
+        </div>
+        <div class="acoes">
+          <div class="barra-busca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input class="inp" id="busca-artes" placeholder="Buscar arte pelo nome...">
+          </div>
+          <button class="btn laranja so-master" id="bt-nova-arte">+ Publicar arte</button>
+        </div>
+      </div>
+      <div class="grade" id="grade-artes"></div>
+    </div>
+  </section>
+
+  <!-- ─────────── ABA 3: EDITOR LIVRE ─────────── -->
+  <section class="painel" data-painel="livre">
+    <div class="miolo">
+      <div class="cabeca">
+        <div>
+          <div class="eyebrow">Aba 3</div>
+          <h1>Importar e editar</h1>
+          <p>Traga um PDF ou uma foto e escreva por cima.</p>
+        </div>
+      </div>
+      <div class="drop" id="drop-livre" style="padding:44px 20px">
+        <strong>Solte aqui o PDF ou a imagem</strong>
+        ou clique para escolher no computador · PDF, JPG, PNG e WEBP
+      </div>
+      <div style="height:22px"></div>
+      <div class="cabeca"><div><div class="eyebrow">Recentes</div><h1 style="font-size:17px">Suas edições salvas</h1></div></div>
+      <div class="grade" id="grade-livre"></div>
+    </div>
+  </section>
+
+  <!-- ─────────── ABA 4: MINHAS ARTES ─────────── -->
+  <section class="painel" data-painel="salvos">
+    <div class="miolo">
+      <div class="cabeca">
+        <div>
+          <div class="eyebrow">Aba 4</div>
+          <h1>Minhas artes</h1>
+          <p>Tudo que a sua filial salvou.</p>
+        </div>
+        <div class="acoes">
+          <div class="barra-busca">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input class="inp" id="busca-salvos" placeholder="Buscar pelo nome...">
+          </div>
+        </div>
+      </div>
+      <div class="grade" id="grade-salvos"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════ EDITOR / VISUALIZADOR ══════════════════ -->
+<div class="editor" id="editor">
+  <div class="editor-topo">
+    <button class="btn escuro mini" id="bt-fechar-editor">← Voltar</button>
+    <span class="titulo" id="editor-titulo">Arte</span>
+    <div class="dir">
+      <div class="seg laranja" id="seg-tamanho" style="border-color:#454040">
+        <button data-tam="A4" class="on">A4</button>
+        <button data-tam="A5">A5</button>
+      </div>
+      <button class="btn escuro" id="bt-imprimir">Imprimir</button>
+      <button class="btn escuro" id="bt-pdf">Exportar PDF</button>
+      <button class="btn escuro" id="bt-png">PNG</button>
+      <button class="btn laranja" id="bt-salvar-arte">Salvar</button>
+    </div>
+  </div>
+  <div class="editor-corpo">
+    <div class="palco"><canvas id="canvas-palco"></canvas></div>
+    <aside class="lateral" id="lateral"></aside>
+  </div>
+</div>
+
+<!-- ══════════════════ MODAL GENÉRICO ══════════════════ -->
+<div class="modal" id="modal">
+  <div class="modal-cx" id="modal-cx">
+    <div class="modal-topo">
+      <h3 id="modal-titulo">Título</h3>
+      <button class="icone-btn x" id="modal-x">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div id="modal-tabs" class="tabs-cfg" style="display:none"></div>
+    <div class="modal-corpo" id="modal-corpo"></div>
+    <div class="modal-rodape" id="modal-rodape"></div>
+  </div>
+</div>
+
+<div id="carregando"><div style="text-align:center"><div class="spin" style="margin:0 auto"></div><p id="carregando-txt">Carregando...</p></div></div>
+<div id="toast"></div>
+
+<input type="file" id="file-oculto" style="display:none">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   MIASHOP · ESTÚDIO DE ARTES DO MARKETING
+   Frontend único — GitHub Pages + Apps Script + Sheets + Drive
+   ═══════════════════════════════════════════════════════════════ */
+
+const ABAS = [
+  { k:'modelos', nome:'Modelos editáveis' },
+  { k:'artes',   nome:'Artes fixas' },
+  { k:'livre',   nome:'Importar e editar' },
+  { k:'salvos',  nome:'Minhas artes' }
+];
+
+const FONTES = ['Anton','Archivo','Oswald','Georgia','Times New Roman','Courier New','Impact'];
+
+const S = {
+  url:'', config:{}, filiais:[], usuarios:[],
+  idx:{ MODELOS:[], ARTES:[], SALVOS:[] },
+  user:null, master:false, permissoes:[], aba:'modelos',
+  arte:null, arteId:null, arteAba:'SALVOS', sel:null,
+  somenteLeitura:false, podeEditarLayout:false,
+  tam:'A4', escala:1, dpr:1, bgImg:null, cacheImg:{}, arrasto:null
+};
+
+/* ───────────── armazenamento local tolerante a falhas ───────────── */
+const _mem = {};
+const LS = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return _mem[k] ?? null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch(e){ _mem[k]=v; } },
+  del(k){ try { localStorage.removeItem(k); } catch(e){ delete _mem[k]; } }
+};
+
+/* ───────────── atalhos ───────────── */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = t => String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+
+function toast(msg, tipo=''){
+  const t=$('#toast'); t.textContent=msg; t.className=tipo+' on';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className=tipo,2600);
+}
+function carregando(on, txt='Carregando...'){
+  $('#carregando-txt').textContent = txt;
+  $('#carregando').classList.toggle('on', !!on);
+}
+
+/* ───────────── API ───────────── */
+async function api(action, payload={}){
+  if(!S.url) throw new Error('Servidor não configurado.');
+  const r = await fetch(S.url, {
+    method:'POST',
+    headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+    body: JSON.stringify(Object.assign({action}, payload))
+  });
+  if(!r.ok) throw new Error('Servidor respondeu '+r.status+'. Confira a URL e a publicação do Apps Script.');
+  const t = await r.text();
+  let j; try { j = JSON.parse(t); } catch(e){
+    throw new Error('Resposta inesperada do servidor. Republique o Apps Script com acesso "Qualquer pessoa".');
+  }
+  if(!j.ok) throw new Error(j.erro || 'Falha na operação.');
+  return j;
+}
+
+/* ───────────── imagens ───────────── */
+function carregaImg(src){
+  return new Promise((ok,err)=>{
+    const i=new Image(); i.onload=()=>ok(i);
+    i.onerror=()=>err(new Error('Não foi possível carregar a imagem.'));
+    i.src=src;
+  });
+}
+async function imgDoDrive(fileId){
+  if(!fileId) return null;
+  if(S.cacheImg[fileId]) return S.cacheImg[fileId];
+  const j = await api('getArquivo',{fileId});
+  const img = await carregaImg('data:'+j.mime+';base64,'+j.base64);
+  S.cacheImg[fileId] = img;
+  return img;
+}
+const thumbDrive = id => 'https://drive.google.com/thumbnail?id='+id+'&sz=w900';
+
+/* Reduz a imagem antes de subir — mantém o Drive leve e a tela rápida */
+async function normalizaImagem(file, maxLado=2200){
+  const url = URL.createObjectURL(file);
+  const img = await carregaImg(url);
+  URL.revokeObjectURL(url);
+  let {width:w, height:h} = img;
+  const f = Math.min(1, maxLado/Math.max(w,h));
+  w = Math.round(w*f); h = Math.round(h*f);
+  const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+  cv.getContext('2d').drawImage(img,0,0,w,h);
+  return { dataUrl: cv.toDataURL('image/png'), w, h };
+}
+async function pdfParaImagens(file, maxPaginas=12){
+  const buf = await file.arrayBuffer();
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const doc = await pdfjsLib.getDocument({data:buf}).promise;
+  const total = Math.min(doc.numPages, maxPaginas);
+  const out=[];
+  for(let p=1;p<=total;p++){
+    const pg = await doc.getPage(p);
+    const base = pg.getViewport({scale:1});
+    const escala = Math.min(2.2, 2000/Math.max(base.width, base.height));
+    const vp = pg.getViewport({scale:escala});
+    const cv=document.createElement('canvas'); cv.width=Math.round(vp.width); cv.height=Math.round(vp.height);
+    await pg.render({canvasContext:cv.getContext('2d'), viewport:vp}).promise;
+    out.push({ dataUrl: cv.toDataURL('image/png'), w:cv.width, h:cv.height, pagina:p });
+  }
+  return out;
+}
+async function subirDataUrl(dataUrl, nome, pasta='ARTES'){
+  const [cab, b64] = dataUrl.split(',');
+  const mime = (cab.match(/data:([^;]+)/)||[])[1] || 'image/png';
+  const j = await api('subirArquivo',{ nome, mime, base64:b64, pasta });
+  return j;
+}
+
+/* ───────────── marca ───────────── */
+function pintaMarca(alvo, classe=''){
+  const n = $('#tpl-marca').content.cloneNode(true);
+  if(classe) n.querySelector('.marca').classList.add(classe);
+  alvo.innerHTML=''; alvo.appendChild(n);
+}
+
+/* ═══════════════════ ARRANQUE ═══════════════════ */
+document.addEventListener('DOMContentLoaded', ()=>{
+  pintaMarca($('#login-marca'));
+  pintaMarca($('#topo-marca'));
+  S.url = LS.get('artes_url') || '';
+  if(S.url){ $('#passo-url').style.display='none'; $('#passo-login').style.display=''; }
+  else     { $('#passo-url').style.display='';   $('#passo-login').style.display='none'; }
+  ligaEventos();
+  const salvo = LS.get('artes_sessao');
+  if(salvo && S.url){ tentaRetomar(JSON.parse(salvo)); }
+});
+
+async function tentaRetomar(sessao){
+  try{
+    carregando(true,'Reconectando...');
+    await recarregaTudo();
+    // A sessão master nunca fica gravada: em computador de loja o master
+    // sempre digita a senha de novo.
+    const u = S.usuarios.find(x=>x.id===sessao.id);
+    if(u && String(u.ativo)!=='0') entra(usuarioParaSessao(u)); else carregando(false);
+  }catch(e){ carregando(false); }
+}
+
+function ligaEventos(){
+  $('#bt-conectar').onclick = conectar;
+  $('#in-url').addEventListener('keydown', e=>{ if(e.key==='Enter') conectar(); });
+  $('#bt-trocar-url').onclick = ()=>{ $('#passo-url').style.display=''; $('#passo-login').style.display='none'; $('#in-url').value=S.url; };
+  $('#bt-entrar').onclick = entrar;
+  ['#in-usuario','#in-senha'].forEach(s=>$(s).addEventListener('keydown', e=>{ if(e.key==='Enter') entrar(); }));
+  $('#bt-sair').onclick = sair;
+  $('#bt-config').onclick = abreConfig;
+  $('#modal-x').onclick = fechaModal;
+  $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') fechaModal(); });
+  $('#bt-fechar-editor').onclick = fechaEditor;
+  $('#bt-novo-modelo').onclick = ()=>novoModeloMenu();
+  $('#bt-nova-arte').onclick = ()=>publicarArteFixa();
+  $('#busca-modelos').oninput = ()=>pintaGrade('modelos');
+  $('#busca-artes').oninput   = ()=>pintaGrade('artes');
+  $('#busca-salvos').oninput  = ()=>pintaGrade('salvos');
+  $('#bt-pdf').onclick = ()=>exportar('pdf');
+  $('#bt-png').onclick = ()=>exportar('png');
+  $('#bt-imprimir').onclick = ()=>exportar('print');
+  $('#bt-salvar-arte').onclick = salvarArteAtual;
+  $$('#seg-tamanho button').forEach(b=>b.onclick=()=>{
+    $$('#seg-tamanho button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); S.tam=b.dataset.tam;
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){ if($('#modal').classList.contains('on')) fechaModal(); }
+    if(S.sel && S.podeEditarLayout && $('#editor').classList.contains('on')){
+      if((e.key==='Delete'||e.key==='Backspace') && document.activeElement===document.body){
+        e.preventDefault(); removeCampo(S.sel);
+      }
+      const passo = e.shiftKey?10:2; let m=false;
+      if(e.key==='ArrowLeft'){S.sel.x-=passo;m=true} if(e.key==='ArrowRight'){S.sel.x+=passo;m=true}
+      if(e.key==='ArrowUp'){S.sel.y-=passo;m=true}  if(e.key==='ArrowDown'){S.sel.y+=passo;m=true}
+      if(m && document.activeElement===document.body){ e.preventDefault(); desenhaPalco(); pintaLateral(); }
+    }
+  });
+  ligaDropLivre();
+  window.addEventListener('resize', ()=>{
+    if($('#editor').classList.contains('on')){ dimensionaPalco(); desenhaPalco(); }
+  });
+}
+
+/* ───────────── conexão / login ───────────── */
+async function conectar(){
+  const url = $('#in-url').value.trim();
+  $('#aviso-url').textContent='';
+  if(!/^https:\/\/script\.google\.com\/.+\/exec$/.test(url)){
+    $('#aviso-url').textContent='A URL precisa terminar em /exec.'; return;
+  }
+  S.url = url;
+  try{
+    carregando(true,'Conectando ao servidor...');
+    await api('ping');
+    LS.set('artes_url', url);
+    carregando(false);
+    $('#passo-url').style.display='none'; $('#passo-login').style.display='';
+    toast('Servidor conectado','ok');
+  }catch(e){
+    carregando(false); S.url='';
+    $('#aviso-url').textContent = e.message;
+  }
+}
+
+async function recarregaTudo(){
+  const j = await api('bootstrap');
+  S.config   = j.config   || {};
+  S.filiais  = j.filiais  || [];
+  S.usuarios = j.usuarios || [];
+  S.idx      = j.indices  || {MODELOS:[],ARTES:[],SALVOS:[]};
+  S.planilhaUrl = j.planilhaUrl; S.pastaUrl = j.pastaUrl;
+}
+
+function usuarioParaSessao(u){
+  let perms=[]; try{ perms = JSON.parse(u.permissoes||'[]'); }catch(e){ perms=[]; }
+  if(!perms.length) perms = ['modelos','artes'];
+  return { id:u.id, nome:u.nome||u.login, master:false, permissoes:perms, filial:u.filial||'' };
+}
+
+async function entrar(){
+  const login = $('#in-usuario').value.trim();
+  const senha = $('#in-senha').value;
+  $('#aviso-login').textContent='';
+  if(!login || !senha){ $('#aviso-login').textContent='Informe usuário e senha.'; return; }
+  try{
+    carregando(true,'Entrando...');
+    await recarregaTudo();
+    if(login.toUpperCase()==='MASTER'){
+      if(senha !== (S.config.senhaMaster||'YY17')){
+        carregando(false); $('#aviso-login').textContent='Senha master incorreta.'; return;
+      }
+      entra({ nome:'Master', master:true });
+      return;
+    }
+    const u = S.usuarios.find(x=>String(x.login||'').toLowerCase()===login.toLowerCase());
+    if(!u || String(u.senha)!==String(senha)){
+      carregando(false); $('#aviso-login').textContent='Usuário ou senha incorretos.'; return;
+    }
+    if(String(u.ativo)==='0'){ carregando(false); $('#aviso-login').textContent='Usuário desativado. Fale com o master.'; return; }
+    entra(usuarioParaSessao(u));
+  }catch(e){
+    carregando(false); $('#aviso-login').textContent = e.message;
+  }
+}
+
+function entra(sessao){
+  S.user = sessao;
+  S.master = !!sessao.master;
+  S.permissoes = S.master ? ABAS.map(a=>a.k) : (sessao.permissoes||[]);
+  if(S.master) LS.del('artes_sessao');
+  else LS.set('artes_sessao', JSON.stringify({ id:sessao.id||'' }));
+  $('#tela-login').style.display='none';
+  $('#app').classList.add('on');
+  $$('.so-master').forEach(e=>e.style.display = S.master ? '' : 'none');
+  const ini = (sessao.nome||'?').trim().slice(0,2).toUpperCase();
+  $('#chip-user').innerHTML =
+    `<span class="avatar ${S.master?'master':''}">${esc(ini)}</span>
+     <span>${esc(sessao.nome)}${sessao.filial?' · '+esc(nomeFilial(sessao.filial)):''}</span>`;
+  montaAbas();
+  carregando(false);
+}
+
+function sair(){
+  LS.del('artes_sessao');
+  S.user=null; S.master=false;
+  $('#app').classList.remove('on');
+  $('#tela-login').style.display='';
+  $('#in-senha').value='';
+}
+
+function nomeFilial(id){
+  const f = S.filiais.find(x=>x.id===id); return f ? f.nome : id;
+}
+
+/* ───────────── navegação ───────────── */
+function montaAbas(){
+  const nav = $('#nav-abas'); nav.innerHTML='';
+  const visiveis = ABAS.filter(a=>S.permissoes.includes(a.k));
+  visiveis.forEach(a=>{
+    const b=document.createElement('button');
+    b.className='aba'; b.textContent=a.nome; b.dataset.k=a.k;
+    b.onclick=()=>vaiPara(a.k);
+    nav.appendChild(b);
+  });
+  vaiPara(visiveis.length ? (visiveis.find(a=>a.k===S.aba)?S.aba:visiveis[0].k) : 'modelos');
+}
+
+function vaiPara(k){
+  S.aba=k;
+  $$('.aba').forEach(b=>b.classList.toggle('on', b.dataset.k===k));
+  $$('.painel').forEach(p=>p.classList.toggle('on', p.dataset.painel===k));
+  pintaGrade(k);
+}
+
+/* ───────────── grades ───────────── */
+const FONTE_DA_ABA = { modelos:'MODELOS', artes:'ARTES', salvos:'SALVOS', livre:'SALVOS' };
+
+function pintaGrade(k){
+  const alvo = { modelos:'#grade-modelos', artes:'#grade-artes', salvos:'#grade-salvos', livre:'#grade-livre' }[k];
+  if(!alvo) return;
+  const el = $(alvo);
+  const busca = ({ modelos:'#busca-modelos', artes:'#busca-artes', salvos:'#busca-salvos' })[k];
+  const termo = busca ? $(busca).value.trim().toLowerCase() : '';
+
+  let lista = (S.idx[FONTE_DA_ABA[k]]||[]).slice();
+  if(k==='livre')  lista = lista.filter(m=>m.origem==='livre');
+  if(k==='salvos') lista = lista.filter(m=>S.master || !m.filial || m.filial===(S.user.filial||''));
+  if(termo) lista = lista.filter(m=>(m.nome||'').toLowerCase().includes(termo) || (m.categoria||'').toLowerCase().includes(termo));
+  lista.sort((a,b)=>String(b.atualizado||'').localeCompare(String(a.atualizado||'')));
+
+  if(!lista.length){ el.innerHTML = vazioHtml(k, termo); ligaVazio(k); return; }
+
+  el.innerHTML = lista.map(m=>{
+    const capa = m.capaFileId ? `<img loading="lazy" src="${thumbDrive(m.capaFileId)}" alt="${esc(m.nome)}">`
+                              : `<span style="font-size:11px;color:#9C948A;font-weight:700;letter-spacing:.1em">SEM PRÉVIA</span>`;
+    const fixa = FONTE_DA_ABA[k]==='ARTES';
+    return `<article class="cartao" data-id="${m.id}" data-aba="${FONTE_DA_ABA[k]}">
+      <div class="capa" data-abrir="1">${capa}</div>
+      <div class="corpo">
+        <span class="nome">${esc(m.nome||'Sem nome')}</span>
+        <span class="sub">${esc(m.categoria||'')}${m.categoria&&m.atualizado?' · ':''}${m.atualizado?dataCurta(m.atualizado):''}</span>
+      </div>
+      <div class="rodape">
+        <button class="btn mini" data-abrir="1">${fixa?'Abrir e imprimir':'Editar'}</button>
+        ${(S.master||k==='livre'||k==='salvos') ? `<button class="btn mini perigo" data-excluir="1">Excluir</button>`:''}
+      </div>
+    </article>`;
+  }).join('');
+
+  $$('.cartao', el).forEach(c=>{
+    const id=c.dataset.id, aba=c.dataset.aba;
+    $$('[data-abrir]',c).forEach(b=>b.onclick=()=>abrirRegistro(aba,id));
+    const bx=$('[data-excluir]',c);
+    if(bx) bx.onclick=()=>excluirRegistro(aba,id,c);
+  });
+}
+
+function dataCurta(iso){
+  try{ const d=new Date(iso); return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}); }catch(e){ return ''; }
+}
+
+function vazioHtml(k, termo){
+  if(termo) return `<div class="vazio" style="grid-column:1/-1"><h3>Nada encontrado</h3><p>Nenhuma arte com “${esc(termo)}” no nome.</p></div>`;
+  const m = {
+    modelos:{t:'Nenhum modelo publicado',p:'Modelos são artes com campos editáveis: o gerente troca código, descrição e valor e imprime.',b:S.master?'Criar o primeiro modelo':''},
+    artes:{t:'Galeria vazia',p:'Publique aqui as artes prontas. As lojas só visualizam, exportam e imprimem.',b:S.master?'Publicar uma arte':''},
+    livre:{t:'Nenhuma edição salva',p:'Importe um PDF ou uma foto acima para começar.',b:''},
+    salvos:{t:'Você ainda não salvou nada',p:'Abra um modelo, ajuste os campos e clique em Salvar.',b:''}
+  }[k];
+  return `<div class="vazio" style="grid-column:1/-1"><h3>${m.t}</h3><p>${m.p}</p>${m.b?`<button class="btn laranja" data-vazio="${k}">${m.b}</button>`:''}</div>`;
+}
+function ligaVazio(k){
+  const b=$(`[data-vazio="${k}"]`); if(!b) return;
+  b.onclick = k==='modelos' ? novoModeloMenu : publicarArteFixa;
+}
+
+async function excluirRegistro(aba,id,card){
+  if(!confirm('Excluir definitivamente esta arte?')) return;
+  try{
+    carregando(true,'Excluindo...');
+    const reg = (S.idx[aba]||[]).find(x=>x.id===id);
+    await api('excluirRegistro',{aba,id});
+    if(reg && reg.capaFileId) api('excluirArquivo',{fileId:reg.capaFileId}).catch(()=>{});
+    S.idx[aba] = (S.idx[aba]||[]).filter(x=>x.id!==id);
+    carregando(false); pintaGrade(S.aba); toast('Arte excluída','ok');
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+</script>
+<script>
+/* ═══════════════ DESENHO DA ARTE (canvas) ═══════════════ */
+
+const LOGO_ABA  = 'M13 6 h62 a6 6 0 0 1 6 6 v18 h-74 v-18 a6 6 0 0 1 6 -6 z M32 13 h24 a4.6 4.6 0 0 1 0 9.2 h-24 a4.6 4.6 0 0 1 0 -9.2 z';
+const LOGO_CORPO= 'M7 34.5 h74 v33 a10.5 10.5 0 0 1 -10.5 10.5 h-53 a10.5 10.5 0 0 1 -10.5 -10.5 z';
+
+const LOGO_OFF = 7/84;    // borda esquerda da sacola dentro do viewBox
+const LOGO_LARG = 74/84;  // largura visual da sacola
+const LOGO_GAP  = 0.30;   // respiro entre sacola e palavra
+
+function larguraLogo(ctx, H){
+  const fs=H*0.826;
+  ctx.save(); ctx.font=`800 ${fs}px Archivo, "Arial Black", sans-serif`;
+  const w = ctx.measureText('MIASHOP').width; ctx.restore();
+  return LOGO_LARG*H + LOGO_GAP*H + w;
+}
+function desenhaLogo(ctx, x, y, H, cor){
+  const k = H/84;
+  ctx.save();
+  ctx.fillStyle = cor;
+  ctx.translate(x - LOGO_OFF*H, y); ctx.scale(k, k);
+  ctx.fill(new Path2D(LOGO_ABA), 'evenodd');   // furo da alça fica vazado
+  ctx.fill(new Path2D(LOGO_CORPO));
+  ctx.restore();
+  const fs = H*0.826;
+  ctx.save();
+  ctx.fillStyle = cor;
+  ctx.font = `800 ${fs}px Archivo, "Arial Black", sans-serif`;
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+  try{ ctx.letterSpacing = (-0.025*fs)+'px'; }catch(e){}
+  ctx.fillText('MIASHOP', x + LOGO_LARG*H + LOGO_GAP*H, y + H*0.80);
+  try{ ctx.letterSpacing = '0px'; }catch(e){}
+  ctx.restore();
+}
+
+function caixaRedonda(ctx,x,y,w,h,r){
+  r=Math.max(0,Math.min(r, Math.min(w,h)/2));
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+
+function quebraLinhas(ctx, txt, largura){
+  const linhas=[];
+  String(txt).split('\n').forEach(par=>{
+    const pal = par.split(/\s+/).filter(Boolean);
+    if(!pal.length){ linhas.push(''); return; }
+    let l = pal[0];
+    for(let i=1;i<pal.length;i++){
+      const t = l+' '+pal[i];
+      if(ctx.measureText(t).width <= largura) l = t;
+      else { linhas.push(l); l = pal[i]; }
+    }
+    linhas.push(l);
+  });
+  return linhas;
+}
+
+function fonteDe(c, tam){
+  return `${c.peso||400} ${tam}px "${c.fonte||'Archivo'}", Archivo, sans-serif`;
+}
+
+function desenhaCampo(ctx, c){
+  if(c.corFundo){
+    ctx.fillStyle = c.corFundo;
+    caixaRedonda(ctx, c.x, c.y, c.w, c.h, c.raio||0);
+    ctx.fill();
+  }
+  if(c.tipo === 'forma') return;
+
+  if(c.tipo === 'logo'){
+    const H = c.h*0.72;
+    const total = larguraLogo(ctx, H);
+    let x = c.x;
+    if(c.alinha==='center') x = c.x + (c.w-total)/2;
+    if(c.alinha==='right')  x = c.x + c.w - total;
+    desenhaLogo(ctx, x, c.y + (c.h-H)/2, H, c.cor||'#15120F');
+    return;
+  }
+
+  let txt = (c.prefixo||'') + (c.texto??'') + (c.sufixo||'');
+  if(c.caixaAlta) txt = txt.toUpperCase();
+  if(!txt.trim()) return;
+
+  const pad = 6;
+  const lw = Math.max(10, c.w - pad*2);
+  const lh = Math.max(10, c.h - pad*2);
+  const el = c.entrelinha || 1.08;
+
+  // encolhe até caber na caixa
+  let tam = c.tam || 40, linhas = [];
+  for(let i=0;i<60;i++){
+    ctx.font = fonteDe(c, tam);
+    linhas = quebraLinhas(ctx, txt, lw);
+    const alturaTotal = linhas.length * tam * el;
+    const maisLarga = linhas.reduce((m,l)=>Math.max(m, ctx.measureText(l).width), 0);
+    if(alturaTotal <= lh && maisLarga <= lw) break;
+    tam = Math.max(8, tam*0.94);
+    if(tam<=8) break;
+  }
+
+  ctx.save();
+  ctx.font = fonteDe(c, tam);
+  ctx.fillStyle = c.cor || '#15120F';
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = c.alinha==='center' ? 'center' : (c.alinha==='right' ? 'right' : 'left');
+  const px = c.alinha==='center' ? c.x + c.w/2 : (c.alinha==='right' ? c.x + c.w - pad : c.x + pad);
+
+  const alturaTotal = linhas.length * tam * el;
+  let topo = c.y + pad;
+  if((c.vAlinha||'middle')==='middle') topo = c.y + (c.h - alturaTotal)/2;
+  if(c.vAlinha==='bottom')             topo = c.y + c.h - pad - alturaTotal;
+
+  if(c.sombra){ ctx.shadowColor='rgba(0,0,0,.30)'; ctx.shadowBlur=tam*0.12; ctx.shadowOffsetY=tam*0.05; }
+
+  linhas.forEach((l,i)=>{
+    const base = topo + (i+1)*tam*el - tam*el*0.22;
+    if(c.contorno){
+      ctx.lineWidth = Math.max(2, tam*0.06); ctx.strokeStyle = c.contorno;
+      ctx.lineJoin='round'; ctx.strokeText(l, px, base);
+    }
+    ctx.fillText(l, px, base);
+  });
+  ctx.restore();
+}
+
+function desenhaArte(ctx, arte, imgFundo){
+  ctx.save();
+  ctx.fillStyle = arte.fundo || '#FFFFFF';
+  ctx.fillRect(0,0,arte.w,arte.h);
+  if(imgFundo){
+    const ri = imgFundo.width/imgFundo.height, ra = arte.w/arte.h;
+    let w,h,x,y;
+    if(arte.bgFit === 'contain'){
+      if(ri > ra){ w=arte.w; h=w/ri; } else { h=arte.h; w=h*ri; }
+    } else {
+      if(ri > ra){ h=arte.h; w=h*ri; } else { w=arte.w; h=w/ri; }
+    }
+    x=(arte.w-w)/2; y=(arte.h-h)/2;
+    ctx.drawImage(imgFundo, x, y, w, h);
+  }
+  (arte.campos||[]).forEach(c=>desenhaCampo(ctx,c));
+  ctx.restore();
+}
+
+/* ═══════════════ PALCO ═══════════════ */
+
+function dimensionaPalco(){
+  const arte = S.arte; if(!arte) return;
+  const box = $('.palco').getBoundingClientRect();
+  const maxW = Math.max(160, box.width - 52);
+  const maxH = Math.max(160, box.height - 52);
+  S.escala = Math.min(maxW/arte.w, maxH/arte.h, 1.4);
+  const cv = $('#canvas-palco');
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  cv.style.width  = Math.round(arte.w*S.escala)+'px';
+  cv.style.height = Math.round(arte.h*S.escala)+'px';
+  cv.width  = Math.round(arte.w*S.escala*dpr);
+  cv.height = Math.round(arte.h*S.escala*dpr);
+  S.dpr = dpr;
+}
+
+function desenhaPalco(){
+  const arte = S.arte; if(!arte) return;
+  const cv = $('#canvas-palco'), ctx = cv.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.scale(S.escala*S.dpr, S.escala*S.dpr);
+  desenhaArte(ctx, arte, S.bgImg);
+
+  if(S.sel && S.podeEditarLayout){
+    const c = S.sel;
+    ctx.save();
+    ctx.strokeStyle = '#F18634';
+    ctx.lineWidth = 2/S.escala;
+    ctx.setLineDash([7/S.escala, 5/S.escala]);
+    ctx.strokeRect(c.x, c.y, c.w, c.h);
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#F18634';
+    const g = 16/S.escala;
+    ctx.fillRect(c.x+c.w-g, c.y+c.h-g, g, g);
+    ctx.restore();
+  }
+}
+
+function pontoNoPalco(ev){
+  const cv = $('#canvas-palco'), r = cv.getBoundingClientRect();
+  return { x:(ev.clientX-r.left)/S.escala, y:(ev.clientY-r.top)/S.escala };
+}
+
+function ligaPalco(){
+  const cv = $('#canvas-palco');
+  cv.onpointerdown = ev=>{
+    if(!S.podeEditarLayout) return;
+    const p = pontoNoPalco(ev);
+    const campos = S.arte.campos||[];
+    let alvo=null, modo='mover';
+    for(let i=campos.length-1;i>=0;i--){
+      const c=campos[i];
+      if(p.x>=c.x && p.x<=c.x+c.w && p.y>=c.y && p.y<=c.y+c.h){
+        alvo=c;
+        const g=18/S.escala;
+        if(p.x>c.x+c.w-g && p.y>c.y+c.h-g) modo='redimensionar';
+        break;
+      }
+    }
+    S.sel = alvo;
+    pintaLateral(); desenhaPalco();
+    if(!alvo) return;
+    cv.setPointerCapture(ev.pointerId);
+    S.arrasto = { modo, dx:p.x-alvo.x, dy:p.y-alvo.y, w0:alvo.w, h0:alvo.h, px:p.x, py:p.y };
+    cv.style.cursor = modo==='mover'?'grabbing':'nwse-resize';
+  };
+  cv.onpointermove = ev=>{
+    if(!S.podeEditarLayout) return;
+    if(!S.arrasto){
+      const p=pontoNoPalco(ev);
+      const sobre=(S.arte.campos||[]).some(c=>p.x>=c.x&&p.x<=c.x+c.w&&p.y>=c.y&&p.y<=c.y+c.h);
+      cv.style.cursor = sobre?'grab':'default';
+      return;
+    }
+    const p=pontoNoPalco(ev), a=S.arrasto, c=S.sel;
+    if(a.modo==='mover'){ c.x=Math.round(p.x-a.dx); c.y=Math.round(p.y-a.dy); }
+    else { c.w=Math.max(30, Math.round(a.w0+(p.x-a.px))); c.h=Math.max(24, Math.round(a.h0+(p.y-a.py))); }
+    desenhaPalco();
+  };
+  const solta = ev=>{
+    if(!S.arrasto) return;
+    S.arrasto=null; cv.style.cursor='grab';
+    try{ cv.releasePointerCapture(ev.pointerId); }catch(e){}
+    pintaLateral();
+  };
+  cv.onpointerup = solta; cv.onpointercancel = solta;
+}
+
+/* ═══════════════ ABRIR / FECHAR EDITOR ═══════════════ */
+
+async function abrirRegistro(aba, id){
+  try{
+    carregando(true,'Abrindo arte...');
+    const j = await api('getRegistro',{aba, id});
+    const arte = j.dados;
+    arte.campos = arte.campos || [];
+    await abreEditor(arte, { aba, id, nome:(j.meta&&j.meta.nome)||arte.nome });
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+async function abreEditor(arte, ctx){
+  S.arte = arte;
+  S.arteId = ctx.id || null;
+  S.arteAba = ctx.aba || 'SALVOS';
+  S.sel = null;
+
+  // Artes fixas: ninguém altera. Modelos: só o master mexe no layout.
+  // Arte fixa: só o master mexe. Modelo: só o master mexe no layout —
+  // o gerente vê apenas os campos preenchíveis. Arte salva: dona da loja edita à vontade.
+  S.somenteLeitura   = (S.arteAba === 'ARTES')  && !S.master;
+  S.podeEditarLayout = (S.arteAba === 'SALVOS') ||  S.master;
+
+  try{ await (document.fonts ? document.fonts.ready : Promise.resolve()); }catch(e){}
+  S.bgImg = null;
+  if(arte.bgFileId){
+    try{ carregando(true,'Carregando o fundo...'); S.bgImg = await imgDoDrive(arte.bgFileId); }
+    catch(e){ toast('Fundo não carregou: '+e.message,'erro'); }
+  }
+
+  $('#editor-titulo').textContent = arte.nome || 'Arte';
+  $('#editor').classList.add('on');
+  $('#bt-salvar-arte').style.display = S.somenteLeitura ? 'none' : '';
+  requestAnimationFrame(()=>{ dimensionaPalco(); desenhaPalco(); pintaLateral(); ligaPalco(); carregando(false); });
+}
+
+function fechaEditor(){
+  $('#editor').classList.remove('on');
+  S.arte=null; S.sel=null; S.bgImg=null;
+  pintaGrade(S.aba);
+}
+
+/* ═══════════════ PAINEL LATERAL ═══════════════ */
+
+function pintaLateral(){
+  const el = $('#lateral'), arte = S.arte;
+  if(!arte){ el.innerHTML=''; return; }
+  const editaveis = (arte.campos||[]).filter(c=>c.editavel!==false && c.tipo!=='logo' && c.tipo!=='forma');
+
+  let html = '';
+
+  if(S.somenteLeitura){
+    html += `<div class="lat-secao">
+      <h4>Arte fixa</h4>
+      <p style="margin:0;font-size:12.5px;color:var(--muted);line-height:1.55">
+        Esta arte é oficial e não pode ser alterada. Escolha o tamanho no topo e mande imprimir ou exportar em PDF.
+      </p>
+    </div>`;
+  } else if(!S.podeEditarLayout){
+    html += `<div class="lat-secao"><h4>Preencher a arte</h4><div class="lista-campos" id="form-campos"></div></div>`;
+  } else {
+    html += `<div class="lat-secao">
+      <h4>Arte</h4>
+      <div class="campo"><span class="mini-lbl">Nome</span>
+        <input class="inp sm" id="p-nome" value="${esc(arte.nome||'')}"></div>
+      <div class="linha2">
+        <div><span class="mini-lbl">Categoria</span><input class="inp sm" id="p-cat" value="${esc(arte.categoria||'')}"></div>
+        <div><span class="mini-lbl">Cor do fundo</span><input type="color" class="inp sm" id="p-fundo" value="${arte.fundo||'#FFFFFF'}"></div>
+      </div>
+      <div style="margin-top:9px" class="linha2">
+        <button class="btn mini" id="bt-trocar-fundo">Trocar imagem de fundo</button>
+        <button class="btn mini" id="bt-tirar-fundo">Remover fundo</button>
+      </div>
+    </div>
+    <div class="lat-secao">
+      <h4>Campos</h4>
+      <div class="lista-campos" id="lista-campos"></div>
+      <div class="linha3" style="margin-top:9px">
+        <button class="btn mini" data-add="texto">+ Texto</button>
+        <button class="btn mini" data-add="forma">+ Faixa</button>
+        <button class="btn mini" data-add="logo">+ Logo</button>
+      </div>
+    </div>
+    <div class="lat-secao" id="props"></div>`;
+  }
+
+  el.innerHTML = html;
+
+  if(!S.somenteLeitura && !S.podeEditarLayout) montaFormSimples(editaveis);
+  if(S.podeEditarLayout) montaEditorLayout();
+}
+
+/* — modo gerente: só os valores — */
+function montaFormSimples(campos){
+  const box = $('#form-campos');
+  if(!campos.length){ box.innerHTML = `<p style="font-size:12.5px;color:var(--muted);margin:0">Este modelo não tem campos editáveis.</p>`; return; }
+  box.innerHTML = campos.map((c,i)=>`
+    <div style="margin-bottom:12px">
+      <span class="mini-lbl">${esc(c.rotulo || rotuloPadrao(c))}</span>
+      ${ (c.multilinha||(c.texto||'').length>40)
+          ? `<textarea class="inp sm" data-i="${i}" rows="2">${esc(c.texto||'')}</textarea>`
+          : `<input class="inp sm" data-i="${i}" value="${esc(c.texto||'')}">` }
+    </div>`).join('');
+  $$('[data-i]', box).forEach(inp=>{
+    inp.oninput = ()=>{ campos[+inp.dataset.i].texto = inp.value; desenhaPalco(); };
+  });
+}
+function rotuloPadrao(c){
+  return ({codigo:'Código', descricao:'Descrição', valor:'Valor'})[c.chave] || 'Texto';
+}
+
+/* — modo master: layout completo — */
+function montaEditorLayout(){
+  const arte = S.arte;
+  $('#p-nome').oninput  = e=>{ arte.nome=e.target.value; $('#editor-titulo').textContent=e.target.value; };
+  $('#p-cat').oninput   = e=>{ arte.categoria=e.target.value; };
+  $('#p-fundo').oninput = e=>{ arte.fundo=e.target.value; desenhaPalco(); };
+  $('#bt-trocar-fundo').onclick = trocarFundo;
+  $('#bt-tirar-fundo').onclick  = ()=>{ arte.bgFileId=''; S.bgImg=null; desenhaPalco(); };
+  $$('[data-add]').forEach(b=>b.onclick=()=>adicionaCampo(b.dataset.add));
+
+  const lista = $('#lista-campos');
+  lista.innerHTML = (arte.campos||[]).map((c,i)=>`
+    <button class="item-campo ${S.sel===c?'on':''}" data-c="${i}">
+      <span class="k">${esc(c.tipo==='logo'?'LOGO':(c.tipo==='forma'?'FAIXA':String(c.chave||'texto').toUpperCase()))}</span>
+      <span class="t">${esc(c.tipo==='logo'?'Logo Miashop':(c.tipo==='forma'?'Faixa colorida':(c.texto||c.rotulo||'—')))}</span>
+    </button>`).join('') || `<p style="font-size:12.5px;color:var(--muted);margin:0">Nenhum campo ainda.</p>`;
+  $$('[data-c]', lista).forEach(b=>b.onclick=()=>{ S.sel=arte.campos[+b.dataset.c]; pintaLateral(); desenhaPalco(); });
+
+  pintaProps();
+}
+
+function pintaProps(){
+  const box = $('#props'); if(!box) return;
+  const c = S.sel;
+  if(!c){ box.innerHTML = `<h4>Propriedades</h4><p style="font-size:12.5px;color:var(--muted);margin:0">Clique num campo na arte para editar. Arraste para mover, use o canto laranja para redimensionar.</p>`; return; }
+
+  const texto = c.tipo==='texto';
+  box.innerHTML = `
+    <h4>Propriedades</h4>
+    ${texto ? `
+      <div class="campo"><span class="mini-lbl">Papel do campo</span>
+        <select class="inp sm" id="q-chave">
+          <option value="texto">Texto livre</option>
+          <option value="codigo">CÓDIGO</option>
+          <option value="descricao">DESCRIÇÃO</option>
+          <option value="valor">VALOR</option>
+        </select></div>
+      <div class="campo"><span class="mini-lbl">Rótulo mostrado ao gerente</span>
+        <input class="inp sm" id="q-rot" value="${esc(c.rotulo||'')}"></div>
+      <div class="campo"><span class="mini-lbl">Conteúdo</span>
+        <textarea class="inp sm" id="q-txt" rows="2">${esc(c.texto||'')}</textarea></div>
+      <div class="linha2">
+        <div><span class="mini-lbl">Prefixo</span><input class="inp sm" id="q-pre" value="${esc(c.prefixo||'')}"></div>
+        <div><span class="mini-lbl">Sufixo</span><input class="inp sm" id="q-suf" value="${esc(c.sufixo||'')}"></div>
+      </div>
+      <div class="campo" style="margin-top:9px"><span class="mini-lbl">Fonte</span>
+        <select class="inp sm" id="q-fonte">${FONTES.map(f=>`<option ${c.fonte===f?'selected':''}>${f}</option>`).join('')}</select></div>
+      <div class="linha3">
+        <div><span class="mini-lbl">Tamanho</span><input type="number" class="inp sm" id="q-tam" value="${c.tam||40}"></div>
+        <div><span class="mini-lbl">Peso</span>
+          <select class="inp sm" id="q-peso">${[400,500,600,700,800].map(p=>`<option ${(+c.peso||400)===p?'selected':''}>${p}</option>`).join('')}</select></div>
+        <div><span class="mini-lbl">Cor</span><input type="color" class="inp sm" id="q-cor" value="${c.cor||'#15120F'}"></div>
+      </div>
+      <div style="margin-top:9px"><span class="mini-lbl">Alinhamento</span>
+        <div class="seg" id="q-alinha">
+          ${['left','center','right'].map(a=>`<button data-a="${a}" class="${(c.alinha||'left')===a?'on':''}">${({left:'Esq.',center:'Centro',right:'Dir.'})[a]}</button>`).join('')}
+        </div></div>
+      <label class="perm ${c.caixaAlta?'on':''}" style="margin-top:9px"><input type="checkbox" id="q-caps" ${c.caixaAlta?'checked':''}> Tudo em maiúsculas</label>
+      <label class="perm ${c.editavel!==false?'on':''}" style="margin-top:6px"><input type="checkbox" id="q-edit" ${c.editavel!==false?'checked':''}> Gerente pode alterar</label>
+    ` : ''}
+    ${c.tipo==='logo' ? `<div class="campo"><span class="mini-lbl">Cor da logo</span><input type="color" class="inp sm" id="q-cor" value="${c.cor||'#15120F'}"></div>
+      <div><span class="mini-lbl">Alinhamento</span><div class="seg" id="q-alinha">
+        ${['left','center','right'].map(a=>`<button data-a="${a}" class="${(c.alinha||'center')===a?'on':''}">${({left:'Esq.',center:'Centro',right:'Dir.'})[a]}</button>`).join('')}
+      </div></div>` : ''}
+    <div class="linha2" style="margin-top:9px">
+      <div><span class="mini-lbl">Cor de fundo</span><input type="color" class="inp sm" id="q-bg" value="${c.corFundo||'#ffffff'}"></div>
+      <div><span class="mini-lbl">Cantos</span><input type="number" class="inp sm" id="q-raio" value="${c.raio||0}"></div>
+    </div>
+    <label class="perm ${c.corFundo?'on':''}" style="margin-top:7px"><input type="checkbox" id="q-usabg" ${c.corFundo?'checked':''}> Usar cor de fundo</label>
+    <div class="linha2" style="margin-top:11px">
+      <div><span class="mini-lbl">X</span><input type="number" class="inp sm" id="q-x" value="${Math.round(c.x)}"></div>
+      <div><span class="mini-lbl">Y</span><input type="number" class="inp sm" id="q-y" value="${Math.round(c.y)}"></div>
+    </div>
+    <div class="linha2" style="margin-top:7px">
+      <div><span class="mini-lbl">Largura</span><input type="number" class="inp sm" id="q-w" value="${Math.round(c.w)}"></div>
+      <div><span class="mini-lbl">Altura</span><input type="number" class="inp sm" id="q-h" value="${Math.round(c.h)}"></div>
+    </div>
+    <div class="linha2" style="margin-top:11px">
+      <button class="btn mini" id="q-dup">Duplicar</button>
+      <button class="btn mini perigo" id="q-del">Excluir campo</button>
+    </div>`;
+
+  const set = (id, fn, ev='input')=>{ const e=$('#'+id); if(e) e.addEventListener(ev, ()=>{ fn(e); desenhaPalco(); }); };
+  if(texto){
+    $('#q-chave').value = c.chave||'texto';
+    set('q-chave', e=>{ c.chave=e.value; if(!c.rotulo) c.rotulo=rotuloPadrao(c); }, 'change');
+    set('q-rot',  e=>c.rotulo=e.value);
+    set('q-txt',  e=>c.texto=e.value);
+    set('q-pre',  e=>c.prefixo=e.value);
+    set('q-suf',  e=>c.sufixo=e.value);
+    set('q-fonte',e=>c.fonte=e.value,'change');
+    set('q-tam',  e=>c.tam=+e.value||40);
+    set('q-peso', e=>c.peso=+e.value,'change');
+    set('q-caps', e=>c.caixaAlta=e.checked,'change');
+    set('q-edit', e=>c.editavel=e.checked,'change');
+  }
+  set('q-cor', e=>c.cor=e.value);
+  ['x','y','w','h'].forEach(k=>set('q-'+k, e=>c[k]=+e.value||0));
+  set('q-raio', e=>c.raio=+e.value||0);
+  const bg=$('#q-bg'), usa=$('#q-usabg');
+  if(bg&&usa){
+    const aplica=()=>{ c.corFundo = usa.checked ? bg.value : ''; desenhaPalco(); pintaLateral(); };
+    bg.addEventListener('input', ()=>{ if(usa.checked){ c.corFundo=bg.value; desenhaPalco(); } });
+    usa.addEventListener('change', aplica);
+  }
+  $$('#q-alinha button').forEach(b=>b.onclick=()=>{ c.alinha=b.dataset.a; pintaLateral(); desenhaPalco(); });
+  const dup=$('#q-dup'); if(dup) dup.onclick=()=>{
+    const n=JSON.parse(JSON.stringify(c)); n.id=uid(); n.x+=24; n.y+=24;
+    S.arte.campos.push(n); S.sel=n; pintaLateral(); desenhaPalco();
+  };
+  const del=$('#q-del'); if(del) del.onclick=()=>removeCampo(c);
+}
+
+function removeCampo(c){
+  S.arte.campos = S.arte.campos.filter(x=>x!==c);
+  S.sel=null; pintaLateral(); desenhaPalco();
+}
+
+function adicionaCampo(tipo){
+  const a=S.arte;
+  const base = { id:uid(), tipo, x:Math.round(a.w*0.12), y:Math.round(a.h*0.42),
+                 w:Math.round(a.w*0.76), h:Math.round(a.h*0.10), alinha:'center', raio:0 };
+  if(tipo==='texto') Object.assign(base,{ chave:'texto', rotulo:'Texto', texto:'Escreva aqui',
+      tam:Math.round(a.h*0.05), fonte:'Archivo', peso:700, cor:'#15120F', caixaAlta:false, editavel:true });
+  if(tipo==='forma') Object.assign(base,{ corFundo:'#F18634', h:Math.round(a.h*0.06) });
+  if(tipo==='logo')  Object.assign(base,{ cor:'#15120F', h:Math.round(a.h*0.06), y:Math.round(a.h*0.88) });
+  a.campos.push(base); S.sel=base; pintaLateral(); desenhaPalco();
+}
+
+async function trocarFundo(){
+  const f = await escolheArquivo('image/*,application/pdf');
+  if(!f) return;
+  try{
+    carregando(true,'Preparando a imagem...');
+    let item;
+    if(f.type==='application/pdf'){ const pgs = await pdfParaImagens(f,1); item = pgs[0]; }
+    else item = await normalizaImagem(f);
+    const up = await subirDataUrl(item.dataUrl, (S.arte.nome||'fundo')+'.png', 'MODELOS');
+    if(S.arte.bgFileId) api('excluirArquivo',{fileId:S.arte.bgFileId}).catch(()=>{});
+    S.arte.bgFileId = up.fileId;
+    S.cacheImg[up.fileId] = await carregaImg(item.dataUrl);
+    S.bgImg = S.cacheImg[up.fileId];
+    carregando(false); desenhaPalco(); toast('Fundo atualizado','ok');
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+function escolheArquivo(accept){
+  return new Promise(ok=>{
+    const inp = $('#file-oculto');
+    inp.value=''; inp.accept=accept||'*/*'; inp.multiple=false;
+    inp.onchange = ()=>ok(inp.files[0]||null);
+    inp.click();
+  });
+}
+
+/* ═══════════════ EXPORTAR / IMPRIMIR ═══════════════ */
+
+const MM = { A4:{w:210,h:297}, A5:{w:148,h:210} };
+
+async function renderizaFinal(){
+  const a=S.arte;
+  const fator = Math.min(2.2, 4200/Math.max(a.w,a.h));
+  const cv=document.createElement('canvas');
+  cv.width=Math.round(a.w*fator); cv.height=Math.round(a.h*fator);
+  const ctx=cv.getContext('2d');
+  ctx.scale(fator,fator);
+  try{ await (document.fonts?document.fonts.ready:Promise.resolve()); }catch(e){}
+  let img=S.bgImg;
+  if(a.bgFileId && !img) img = await imgDoDrive(a.bgFileId);
+  desenhaArte(ctx, a, img);
+  return cv;
+}
+
+async function exportar(modo){
+  try{
+    carregando(true, modo==='print'?'Preparando impressão...':'Gerando arquivo...');
+    const cv = await renderizaFinal();
+    const nome = (S.arte.nome||'arte').replace(/[^\w\-À-ÿ ]+/g,'').trim() || 'arte';
+
+    if(modo==='png'){
+      const a=document.createElement('a');
+      a.href=cv.toDataURL('image/png'); a.download=nome+'.png'; a.click();
+      carregando(false); toast('PNG baixado','ok'); return;
+    }
+
+    const paisagem = cv.width > cv.height;
+    const pg = MM[S.tam];
+    const pw = paisagem ? pg.h : pg.w, ph = paisagem ? pg.w : pg.h;
+    const dataUrl = cv.toDataURL('image/jpeg', 0.94);
+
+    if(modo==='pdf'){
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: paisagem?'landscape':'portrait', unit:'mm', format:S.tam.toLowerCase() });
+      const r = Math.min(pw/cv.width, ph/cv.height);
+      const w = cv.width*r, h = cv.height*r;
+      doc.addImage(dataUrl,'JPEG',(pw-w)/2,(ph-h)/2,w,h,undefined,'FAST');
+      doc.save(`${nome} - ${S.tam}.pdf`);
+      carregando(false); toast(`PDF ${S.tam} baixado`,'ok'); return;
+    }
+
+    imprime(dataUrl, S.tam, paisagem);
+    carregando(false);
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+function imprime(dataUrl, tam, paisagem){
+  const antigo = $('#frame-print'); if(antigo) antigo.remove();
+  const f = document.createElement('iframe');
+  f.id='frame-print';
+  f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden';
+  document.body.appendChild(f);
+  const d = f.contentDocument;
+  d.open();
+  d.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+    @page { size:${tam} ${paisagem?'landscape':'portrait'}; margin:0 }
+    html,body{margin:0;padding:0;height:100%}
+    body{display:flex;align-items:center;justify-content:center}
+    img{max-width:100%;max-height:100%;display:block}
+  </style></head><body><img src="${dataUrl}"></body></html>`);
+  d.close();
+  const img = d.querySelector('img');
+  const vai = ()=>{ f.contentWindow.focus(); f.contentWindow.print(); };
+  if(img.complete) setTimeout(vai,120); else img.onload = ()=>setTimeout(vai,120);
+}
+</script>
+<script>
+/* ═══════════════ SALVAR ═══════════════ */
+
+async function miniatura(cv, largura=620){
+  const f = largura/cv.width;
+  const m = document.createElement('canvas');
+  m.width = Math.round(cv.width*f); m.height = Math.round(cv.height*f);
+  m.getContext('2d').drawImage(cv,0,0,m.width,m.height);
+  return m.toDataURL('image/jpeg',0.86);
+}
+
+async function salvarArteAtual(){
+  if(S.somenteLeitura){ toast('Esta arte é fixa e não pode ser alterada.','erro'); return; }
+  const a = S.arte;
+  let aba = S.arteAba, id = S.arteId;
+
+  // Gerente editando um modelo: vira uma cópia em "Minhas artes"
+  if(aba==='MODELOS' && !S.master){ aba='SALVOS'; id=null; }
+  if(aba==='ARTES' && !S.master)  { aba='SALVOS'; id=null; }
+
+  if(!id){
+    const nome = prompt('Nome para salvar:', a.nome || 'Nova arte');
+    if(nome===null) return;
+    a.nome = nome.trim() || 'Nova arte';
+  }
+
+  try{
+    carregando(true,'Salvando...');
+    const cv = await renderizaFinal();
+    const capa = await miniatura(cv);
+    const up = await subirDataUrl(capa, (a.nome||'arte')+'-capa.jpg', 'ARTES');
+
+    const antiga = (S.idx[aba]||[]).find(x=>x.id===id);
+    const meta = {
+      nome:a.nome||'Sem nome', categoria:a.categoria||'',
+      capaFileId: up.fileId, w:a.w, h:a.h,
+      filial: S.master ? '' : (S.user.filial||''),
+      origem: a.origem || ''
+    };
+
+    const j = await api('salvarRegistro',{ aba, id: id||'', meta, dados: a });
+    if(antiga && antiga.capaFileId && antiga.capaFileId!==up.fileId)
+      api('excluirArquivo',{fileId:antiga.capaFileId}).catch(()=>{});
+
+    meta.id = j.id; meta.atualizado = new Date().toISOString();
+    S.idx[aba] = (S.idx[aba]||[]).filter(x=>x.id!==j.id);
+    S.idx[aba].unshift(meta);
+    S.arteId = j.id; S.arteAba = aba;
+
+    carregando(false);
+    toast(`Salvo · ${j.blocos} bloco(s) na planilha`,'ok');
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+/* ═══════════════ MODELO PADRÃO DE OFERTA ═══════════════ */
+
+function arteEmBranco(nome, paisagem=false){
+  return { nome, categoria:'', w: paisagem?1754:1240, h: paisagem?1240:1754,
+           fundo:'#FFFFFF', bgFileId:'', bgFit:'cover', campos:[] };
+}
+
+function modeloOferta(nome='Oferta'){
+  const a = arteEmBranco(nome);
+  const W = a.w;
+  a.campos = [
+    { id:uid(), tipo:'forma', x:0, y:0, w:W, h:190, corFundo:'#F18634', raio:0 },
+    { id:uid(), tipo:'texto', chave:'texto', rotulo:'Chamada', texto:'OFERTA',
+      x:60, y:26, w:W-120, h:140, tam:118, fonte:'Anton', peso:400, cor:'#FFFFFF',
+      alinha:'center', caixaAlta:true, editavel:true },
+
+    { id:uid(), tipo:'texto', chave:'descricao', rotulo:'Descrição do produto',
+      texto:'JOGO DE PANELAS ANTIADERENTE 5 PEÇAS',
+      x:70, y:300, w:W-140, h:320, tam:104, fonte:'Anton', peso:400, cor:'#15120F',
+      alinha:'center', caixaAlta:true, multilinha:true, editavel:true },
+
+    { id:uid(), tipo:'texto', chave:'codigo', rotulo:'Código do produto', texto:'123456',
+      prefixo:'CÓD. ', x:70, y:648, w:W-140, h:60, tam:38, fonte:'Archivo', peso:600,
+      cor:'#8B8378', alinha:'center', caixaAlta:true, editavel:true },
+
+    { id:uid(), tipo:'texto', chave:'texto', rotulo:'Etiqueta acima do preço', texto:'POR APENAS',
+      x:70, y:790, w:W-140, h:80, tam:52, fonte:'Archivo', peso:700, cor:'#15120F',
+      alinha:'center', caixaAlta:true, editavel:true },
+
+    { id:uid(), tipo:'texto', chave:'valor', rotulo:'Valor', texto:'99,90',
+      prefixo:'R$ ', x:50, y:860, w:W-100, h:330, tam:250, fonte:'Anton', peso:400,
+      cor:'#F18634', alinha:'center', editavel:true },
+
+    { id:uid(), tipo:'forma', x:70, y:1250, w:W-140, h:5, corFundo:'#E4DED5', raio:3 },
+
+    { id:uid(), tipo:'texto', chave:'texto', rotulo:'Condição de pagamento',
+      texto:'ou 3x sem juros no cartão', x:70, y:1275, w:W-140, h:80, tam:46,
+      fonte:'Archivo', peso:500, cor:'#3B342C', alinha:'center', editavel:true },
+
+    { id:uid(), tipo:'logo', x:70, y:1470, w:W-140, h:110, cor:'#15120F', alinha:'center' },
+
+    { id:uid(), tipo:'texto', chave:'texto', rotulo:'Rodapé',
+      texto:'Preço válido enquanto durarem os estoques. Imagem meramente ilustrativa.',
+      x:70, y:1620, w:W-140, h:70, tam:26, fonte:'Archivo', peso:400, cor:'#8B8378',
+      alinha:'center', editavel:true }
+  ];
+  return a;
+}
+
+/* ═══════════════ NOVO MODELO (master) ═══════════════ */
+
+function novoModeloMenu(){
+  abreModal({
+    titulo:'Novo modelo editável',
+    corpo:`
+      <div class="campo"><label for="nm-nome">Nome do modelo</label>
+        <input class="inp" id="nm-nome" placeholder="Ex.: Cartaz de oferta A4"></div>
+      <div class="campo"><label>Orientação</label>
+        <div class="seg" id="nm-orient"><button data-o="p" class="on">Retrato</button><button data-o="l">Paisagem</button></div></div>
+      <div class="eyebrow" style="margin:18px 0 9px">Ponto de partida</div>
+      <div style="display:grid;gap:9px">
+        <button class="btn bloco" data-inicio="oferta" style="justify-content:flex-start;padding:13px 15px;text-align:left">
+          <b>Cartaz de oferta pronto</b> — já com CÓDIGO, DESCRIÇÃO e VALOR posicionados</button>
+        <button class="btn bloco" data-inicio="fundo" style="justify-content:flex-start;padding:13px 15px;text-align:left">
+          <b>Subir uma arte de fundo</b> — PDF ou imagem, e você escreve por cima</button>
+        <button class="btn bloco" data-inicio="branco" style="justify-content:flex-start;padding:13px 15px;text-align:left">
+          <b>Página em branco</b> — monta do zero</button>
+      </div>`,
+    rodape:''
+  });
+  $$('#nm-orient button').forEach(b=>b.onclick=()=>{ $$('#nm-orient button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); });
+  $$('[data-inicio]').forEach(b=>b.onclick=async()=>{
+    const nome = ($('#nm-nome').value||'').trim() || 'Novo modelo';
+    const paisagem = $('#nm-orient button.on').dataset.o==='l';
+    const tipo = b.dataset.inicio;
+    fechaModal();
+    let arte;
+    if(tipo==='oferta'){ arte = modeloOferta(nome); if(paisagem){ toast('O cartaz pronto é retrato A4.'); } }
+    else arte = arteEmBranco(nome, paisagem);
+    if(tipo==='fundo'){
+      const f = await escolheArquivo('image/*,application/pdf');
+      if(!f) return;
+      try{
+        carregando(true,'Enviando o fundo...');
+        const item = f.type==='application/pdf' ? (await pdfParaImagens(f,1))[0] : await normalizaImagem(f);
+        const up = await subirDataUrl(item.dataUrl, nome+'-fundo.png','MODELOS');
+        arte.bgFileId = up.fileId; arte.bgFit='contain';
+        arte.w = item.w; arte.h = item.h;
+        S.cacheImg[up.fileId] = await carregaImg(item.dataUrl);
+      }catch(e){ carregando(false); toast(e.message,'erro'); return; }
+    }
+    await abreEditor(arte, { aba:'MODELOS', id:null });
+  });
+}
+
+/* ═══════════════ PUBLICAR ARTE FIXA (master) ═══════════════ */
+
+async function publicarArteFixa(){
+  const inp = $('#file-oculto');
+  inp.value=''; inp.accept='image/*,application/pdf'; inp.multiple=true;
+  inp.onchange = async ()=>{
+    const arquivos=[...inp.files]; if(!arquivos.length) return;
+    try{
+      let n=0;
+      for(const f of arquivos){
+        const itens = f.type==='application/pdf' ? await pdfParaImagens(f) : [await normalizaImagem(f)];
+        for(const item of itens){
+          n++;
+          carregando(true,`Publicando ${n}...`);
+          const base = f.name.replace(/\.[^.]+$/,'');
+          const nome = itens.length>1 ? `${base} - pág. ${item.pagina}` : base;
+          const up = await subirDataUrl(item.dataUrl, nome+'.png','ARTES');
+          const arte = { nome, categoria:'', w:item.w, h:item.h, fundo:'#FFFFFF',
+                         bgFileId:up.fileId, bgFit:'contain', campos:[] };
+          const meta = { nome, categoria:'', capaFileId:up.fileId, w:item.w, h:item.h };
+          const j = await api('salvarRegistro',{ aba:'ARTES', id:'', meta, dados:arte });
+          meta.id=j.id; meta.atualizado=new Date().toISOString();
+          S.idx.ARTES.unshift(meta);
+        }
+      }
+      carregando(false); pintaGrade('artes');
+      toast(n+' arte(s) publicada(s)','ok');
+    }catch(e){ carregando(false); toast(e.message,'erro'); }
+  };
+  inp.click();
+}
+
+/* ═══════════════ IMPORTAR E EDITAR (aba 3) ═══════════════ */
+
+function ligaDropLivre(){
+  const d = $('#drop-livre');
+  d.onclick = async ()=>{ const f = await escolheArquivo('image/*,application/pdf'); if(f) importaParaEditar(f); };
+  ['dragenter','dragover'].forEach(ev=>d.addEventListener(ev,e=>{ e.preventDefault(); d.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev=>d.addEventListener(ev,e=>{ e.preventDefault(); d.classList.remove('over'); }));
+  d.addEventListener('drop', e=>{ const f=e.dataTransfer.files[0]; if(f) importaParaEditar(f); });
+}
+
+async function importaParaEditar(file){
+  try{
+    carregando(true,'Preparando o arquivo...');
+    let item;
+    if(file.type==='application/pdf'){
+      const pgs = await pdfParaImagens(file);
+      carregando(false);
+      item = pgs.length===1 ? pgs[0] : await escolhePagina(pgs);
+      if(!item) return;
+      carregando(true,'Enviando...');
+    } else {
+      item = await normalizaImagem(file);
+    }
+    const nome = file.name.replace(/\.[^.]+$/,'');
+    const up = await subirDataUrl(item.dataUrl, nome+'.png','MODELOS');
+    S.cacheImg[up.fileId] = await carregaImg(item.dataUrl);
+    const arte = { nome, categoria:'', w:item.w, h:item.h, fundo:'#FFFFFF',
+                   bgFileId:up.fileId, bgFit:'contain', campos:[], origem:'livre' };
+    await abreEditor(arte, { aba:'SALVOS', id:null });
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+function escolhePagina(pgs){
+  return new Promise(ok=>{
+    abreModal({
+      titulo:'Qual página você quer editar?',
+      corpo:`<div class="grade" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))">
+        ${pgs.map((p,i)=>`<article class="cartao" data-p="${i}" style="cursor:pointer">
+          <div class="capa"><img src="${p.dataUrl}" alt="Página ${p.pagina}"></div>
+          <div class="corpo"><span class="nome">Página ${p.pagina}</span></div></article>`).join('')}
+      </div>`, rodape:''
+    });
+    $$('[data-p]').forEach(c=>c.onclick=()=>{ fechaModal(); ok(pgs[+c.dataset.p]); });
+    $('#modal-x').onclick = ()=>{ fechaModal(); ok(null); };
+  });
+}
+
+/* ═══════════════ MODAL ═══════════════ */
+
+function abreModal({titulo, corpo, rodape='', largo=false, tabs=null}){
+  $('#modal-titulo').textContent = titulo;
+  $('#modal-corpo').innerHTML = corpo;
+  $('#modal-rodape').innerHTML = rodape;
+  $('#modal-rodape').style.display = rodape ? '' : 'none';
+  $('#modal-cx').classList.toggle('largo', !!largo);
+  const t = $('#modal-tabs');
+  if(tabs){ t.style.display=''; t.innerHTML = tabs; } else { t.style.display='none'; t.innerHTML=''; }
+  $('#modal-x').onclick = fechaModal;
+  $('#modal').classList.add('on');
+}
+function fechaModal(){ $('#modal').classList.remove('on'); }
+
+/* ═══════════════ CONFIGURAÇÕES ═══════════════ */
+
+let abaCfg = 'filiais';
+
+function abreConfig(){
+  if(!S.master){ toast('Só o usuário master acessa as configurações.','erro'); return; }
+  abaCfg='filiais';
+  abreModal({ titulo:'Configurações', corpo:'', largo:true, tabs:`
+    <button class="tab-cfg on" data-cfg="filiais">Filiais</button>
+    <button class="tab-cfg" data-cfg="usuarios">Usuários</button>
+    <button class="tab-cfg" data-cfg="senha">Senha master</button>
+    <button class="tab-cfg" data-cfg="servidor">Servidor</button>`});
+  $$('[data-cfg]').forEach(b=>b.onclick=()=>{
+    abaCfg=b.dataset.cfg;
+    $$('[data-cfg]').forEach(x=>x.classList.toggle('on', x===b));
+    pintaConfig();
+  });
+  pintaConfig();
+}
+
+function pintaConfig(){
+  const c = $('#modal-corpo');
+  if(abaCfg==='filiais')  return pintaFiliais(c);
+  if(abaCfg==='usuarios') return pintaUsuarios(c);
+  if(abaCfg==='senha')    return pintaSenha(c);
+  if(abaCfg==='servidor') return pintaServidor(c);
+}
+
+/* — filiais — */
+function pintaFiliais(c){
+  c.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <input class="inp" id="f-nome" placeholder="Nome da filial" style="flex:2;min-width:170px">
+      <input class="inp" id="f-cod" placeholder="Código" style="flex:1;min-width:100px">
+      <button class="btn laranja" id="f-add">Adicionar filial</button>
+    </div>
+    ${S.filiais.length ? `<table class="tb"><thead><tr><th>Filial</th><th>Código</th><th></th></tr></thead><tbody>
+      ${S.filiais.map(f=>`<tr>
+        <td><input class="inp sm" data-ed="nome" data-id="${f.id}" value="${esc(f.nome)}"></td>
+        <td><input class="inp sm" data-ed="codigo" data-id="${f.id}" value="${esc(f.codigo||'')}" style="max-width:110px"></td>
+        <td class="acoes-td"><button class="btn mini perigo" data-del="${f.id}">Excluir</button></td>
+      </tr>`).join('')}</tbody></table>`
+      : `<div class="vazio"><h3>Nenhuma filial cadastrada</h3><p>Cadastre as lojas para vincular usuários e artes.</p></div>`}`;
+
+  $('#f-add').onclick = async ()=>{
+    const nome=$('#f-nome').value.trim(); if(!nome) return toast('Informe o nome da filial.','erro');
+    await gravaFilial({ id:'', nome, codigo:$('#f-cod').value.trim(), ativo:'1' });
+  };
+  $$('[data-ed]',c).forEach(i=>i.onchange=async()=>{
+    const f = S.filiais.find(x=>x.id===i.dataset.id); if(!f) return;
+    f[i.dataset.ed]=i.value; await gravaFilial(f, true);
+  });
+  $$('[data-del]',c).forEach(b=>b.onclick=async()=>{
+    if(!confirm('Excluir esta filial?')) return;
+    carregando(true,'Excluindo...');
+    await api('excluirFilial',{id:b.dataset.del});
+    S.filiais = S.filiais.filter(x=>x.id!==b.dataset.del);
+    carregando(false); pintaConfig(); toast('Filial excluída','ok');
+  });
+}
+async function gravaFilial(item, silencioso){
+  try{
+    carregando(true,'Salvando...');
+    const j = await api('salvarFilial',{item});
+    if(!item.id){ item.id=j.id; S.filiais.push(item); }
+    carregando(false);
+    if(!silencioso){ pintaConfig(); toast('Filial salva','ok'); } else toast('Salvo','ok');
+  }catch(e){ carregando(false); toast(e.message,'erro'); }
+}
+
+/* — usuários — */
+function pintaUsuarios(c){
+  c.innerHTML = `
+    <button class="btn laranja" id="u-novo" style="margin-bottom:14px">+ Novo usuário</button>
+    ${S.usuarios.length ? `<table class="tb"><thead><tr><th>Nome</th><th>Login</th><th>Filial</th><th>Abas liberadas</th><th></th></tr></thead><tbody>
+      ${S.usuarios.map(u=>{
+        let p=[]; try{p=JSON.parse(u.permissoes||'[]')}catch(e){}
+        return `<tr>
+          <td><b>${esc(u.nome||'')}</b>${String(u.ativo)==='0'?' <span class="tag cinza">inativo</span>':''}</td>
+          <td style="font-family:var(--mono);font-size:12px">${esc(u.login||'')}</td>
+          <td>${esc(nomeFilial(u.filial)||'—')}</td>
+          <td style="font-size:11.5px;color:var(--muted)">${p.map(k=>(ABAS.find(a=>a.k===k)||{}).nome).filter(Boolean).join(' · ')||'—'}</td>
+          <td class="acoes-td">
+            <button class="btn mini" data-eduser="${u.id}">Editar</button>
+            <button class="btn mini perigo" data-deluser="${u.id}">Excluir</button></td>
+        </tr>`;}).join('')}</tbody></table>`
+      : `<div class="vazio"><h3>Nenhum usuário cadastrado</h3><p>Crie os acessos dos gerentes e escolha quais abas cada um enxerga.</p></div>`}`;
+
+  $('#u-novo').onclick = ()=>formUsuario(null);
+  $$('[data-eduser]',c).forEach(b=>b.onclick=()=>formUsuario(S.usuarios.find(u=>u.id===b.dataset.eduser)));
+  $$('[data-deluser]',c).forEach(b=>b.onclick=async()=>{
+    if(!confirm('Excluir este usuário?')) return;
+    carregando(true,'Excluindo...');
+    await api('excluirUsuario',{id:b.dataset.deluser});
+    S.usuarios = S.usuarios.filter(x=>x.id!==b.dataset.deluser);
+    carregando(false); pintaConfig(); toast('Usuário excluído','ok');
+  });
+}
+
+function formUsuario(u){
+  const atual = u || { id:'', nome:'', login:'', senha:'', filial:'', permissoes:'["modelos","artes"]', ativo:'1' };
+  let perms=[]; try{ perms=JSON.parse(atual.permissoes||'[]'); }catch(e){}
+  const corpo = `
+    <div class="linha2">
+      <div class="campo"><label>Nome</label><input class="inp" id="u-nome" value="${esc(atual.nome)}"></div>
+      <div class="campo"><label>Login</label><input class="inp" id="u-login" value="${esc(atual.login)}" autocomplete="off"></div>
+    </div>
+    <div class="linha2">
+      <div class="campo"><label>Senha</label><input class="inp" id="u-senha" value="${esc(atual.senha)}" autocomplete="new-password"></div>
+      <div class="campo"><label>Filial</label>
+        <select class="inp" id="u-filial">
+          <option value="">— sem filial —</option>
+          ${S.filiais.map(f=>`<option value="${f.id}" ${f.id===atual.filial?'selected':''}>${esc(f.nome)}</option>`).join('')}
+        </select></div>
+    </div>
+    <div class="campo"><label>Abas que este usuário enxerga</label>
+      <div class="perms">
+        ${ABAS.map(a=>`<label class="perm ${perms.includes(a.k)?'on':''}">
+          <input type="checkbox" value="${a.k}" ${perms.includes(a.k)?'checked':''}> ${a.nome}</label>`).join('')}
+      </div></div>
+    <label class="perm ${String(atual.ativo)!=='0'?'on':''}" style="max-width:200px">
+      <input type="checkbox" id="u-ativo" ${String(atual.ativo)!=='0'?'checked':''}> Usuário ativo</label>`;
+
+  abreModal({
+    titulo: u ? 'Editar usuário' : 'Novo usuário',
+    corpo, largo:false,
+    rodape:`<button class="btn" id="u-volta">Cancelar</button><button class="btn laranja" id="u-ok">Salvar usuário</button>`
+  });
+
+  $$('.perms .perm').forEach(l=>{
+    const cb=l.querySelector('input');
+    cb.onchange=()=>l.classList.toggle('on', cb.checked);
+  });
+  $('#u-volta').onclick = ()=>{ abreConfig(); };
+  $('#u-ok').onclick = async ()=>{
+    const login=$('#u-login').value.trim();
+    if(!login) return toast('Informe o login.','erro');
+    if(login.toUpperCase()==='MASTER') return toast('“MASTER” é reservado.','erro');
+    if(!$('#u-senha').value) return toast('Defina uma senha.','erro');
+    if(S.usuarios.some(x=>x.id!==atual.id && String(x.login).toLowerCase()===login.toLowerCase()))
+      return toast('Já existe um usuário com esse login.','erro');
+    const item = {
+      id: atual.id, nome:$('#u-nome').value.trim()||login, login,
+      senha:$('#u-senha').value, filial:$('#u-filial').value,
+      permissoes: JSON.stringify($$('.perms input:checked').map(i=>i.value)),
+      ativo: $('#u-ativo').checked ? '1':'0'
+    };
+    try{
+      carregando(true,'Salvando...');
+      const j = await api('salvarUsuario',{item});
+      if(!item.id){ item.id=j.id; S.usuarios.push(item); }
+      else { const i=S.usuarios.findIndex(x=>x.id===item.id); S.usuarios[i]=item; }
+      carregando(false); toast('Usuário salvo','ok'); abreConfig();
+      $$('[data-cfg]').forEach(x=>x.classList.toggle('on', x.dataset.cfg==='usuarios'));
+      abaCfg='usuarios'; pintaConfig();
+    }catch(e){ carregando(false); toast(e.message,'erro'); }
+  };
+}
+
+/* — senha master — */
+function pintaSenha(c){
+  c.innerHTML = `
+    <div style="max-width:400px">
+      <div class="campo"><label>Senha master atual</label><input type="password" class="inp" id="s-atual" autocomplete="off"></div>
+      <div class="campo"><label>Nova senha master</label><input type="password" class="inp" id="s-nova" autocomplete="new-password"></div>
+      <div class="campo"><label>Repita a nova senha</label><input type="password" class="inp" id="s-conf" autocomplete="new-password"></div>
+      <button class="btn laranja" id="s-ok">Trocar senha master</button>
+      <p class="dica">A senha master abre todas as abas e as configurações. Ela vale para o login <b>MASTER</b>.</p>
+    </div>`;
+  $('#s-ok').onclick = async ()=>{
+    if($('#s-atual').value !== (S.config.senhaMaster||'YY17')) return toast('Senha atual incorreta.','erro');
+    const nova=$('#s-nova').value;
+    if(nova.length<3) return toast('A nova senha precisa de ao menos 3 caracteres.','erro');
+    if(nova!==$('#s-conf').value) return toast('As senhas não conferem.','erro');
+    try{
+      carregando(true,'Salvando...');
+      await api('setConfig',{chave:'senhaMaster', valor:nova});
+      S.config.senhaMaster = nova;
+      carregando(false); toast('Senha master alterada','ok'); pintaConfig();
+    }catch(e){ carregando(false); toast(e.message,'erro'); }
+  };
+}
+
+/* — servidor — */
+function pintaServidor(c){
+  c.innerHTML = `
+    <div class="campo"><label>URL do Apps Script</label>
+      <input class="inp" id="sv-url" value="${esc(S.url)}"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+      <button class="btn" id="sv-salvar">Salvar URL</button>
+      <a class="btn" href="${esc(S.planilhaUrl||'#')}" target="_blank" rel="noopener">Abrir planilha</a>
+      <a class="btn" href="${esc(S.pastaUrl||'#')}" target="_blank" rel="noopener">Abrir pasta do Drive</a>
+    </div>
+    <table class="tb">
+      <tr><th>Modelos editáveis</th><td>${(S.idx.MODELOS||[]).length}</td></tr>
+      <tr><th>Artes fixas</th><td>${(S.idx.ARTES||[]).length}</td></tr>
+      <tr><th>Artes salvas</th><td>${(S.idx.SALVOS||[]).length}</td></tr>
+      <tr><th>Filiais</th><td>${S.filiais.length}</td></tr>
+      <tr><th>Usuários</th><td>${S.usuarios.length}</td></tr>
+    </table>
+    <p class="dica">Cada arte é gravada em blocos de 45.000 caracteres, um por célula da planilha, para nunca estourar o limite de 50.000 caracteres do Google Sheets. As imagens ficam no Drive, não na planilha.</p>`;
+  $('#sv-salvar').onclick = ()=>{
+    const u=$('#sv-url').value.trim();
+    if(!/\/exec$/.test(u)) return toast('A URL precisa terminar em /exec.','erro');
+    S.url=u; LS.set('artes_url',u); toast('URL salva','ok');
+  };
+}
+</script>
+</body>
+</html>
