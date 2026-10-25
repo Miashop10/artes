@@ -304,7 +304,7 @@ async function api(acao,dados={}){
     r=await new Promise((ok,er)=>google.script.run.withSuccessHandler(x=>{ try{ok(JSON.parse(x))}catch(e){er(e)} }).withFailureHandler(er).apiRun(payload));
   } else {
     const u=apiUrl(); if(!u) throw new Error('Informe a URL do servidor (Apps Script) na tela de login.');
-    let resp; try{ resp=await fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:payload,redirect:'follow'}); }
+    let resp; try{ resp=await fetch(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:'payload='+encodeURIComponent(payload),redirect:'follow'}); }
     catch(e){ throw new Error('Sem conexão com o servidor. Verifique a internet e a URL do Apps Script.'); }
     try{ r=await resp.json(); }catch(e){ throw new Error('O servidor não respondeu corretamente. Confira se a implantação está como "Qualquer pessoa".'); }
   }
