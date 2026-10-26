@@ -210,7 +210,7 @@ table.tb{width:100%;border-collapse:collapse;min-width:640px}
    Se ficar vazio, a URL pode ser informada na própria tela de login.
    Quando este arquivo é aberto pelo próprio Apps Script, a URL não é usada.
    ===================================================================== */
-const API_URL = '';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzXjkZoaULmMyIFRFsz6vSdB-2kKnuPai1PHCG1EBituKZWwf1NXzNBrdGqFBGqQAS4/exec';
 
 /* --------------------------------------------------------- BÁSICO -- */
 const LS = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}} };
@@ -297,7 +297,7 @@ function menuPopup(anchor,itens){
 
 /* --------------------------------------------------------- API -- */
 const emGAS=()=>typeof google!=='undefined'&&google.script&&google.script.run;
-const apiUrl=()=>LS.get('mia_api_url')||API_URL||'';
+const apiUrl=()=>API_URL||LS.get('mia_api_url')||'';
 async function api(acao,dados={}){
   const payload=JSON.stringify({acao,token:S.token,dados}); let r;
   if(emGAS()){
@@ -373,7 +373,7 @@ function telaLogin(msg){
     <label class="f" for="lgS">Senha</label><input class="inp" id="lgS" type="password" autocomplete="current-password">
     <button class="btn pri" id="lgB" style="width:100%;margin-top:18px;padding:12px">Entrar</button>
     <div class="lg-msg" id="lgMsg">${esc(msg||'')}</div>
-    ${emGAS()?'':`<details class="lg-cfg" ${apiUrl()?'':'open'}><summary>Conexão com o servidor</summary>
+    ${emGAS()||API_URL?'':`<details class="lg-cfg" ${apiUrl()?'':'open'}><summary>Conexão com o servidor</summary>
       <label class="f" for="lgApi">URL do App da Web (Apps Script)</label><input class="inp" id="lgApi" placeholder="https://script.google.com/macros/s/.../exec" value="${esc(apiUrl())}">
       <p class="hint">Cole a URL gerada em Implantar → Nova implantação. Fica salva neste navegador.</p></details>`}
   </div></div>`;
@@ -696,7 +696,7 @@ VIEWS.integracao=()=>{
   `<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
   <div class="card pad"><h3 class="sec-t" style="margin-top:0">${ic('plug')} Conexão</h3>
     <div class="hint">Modo: <b>${emGAS()?'Aberto pelo Apps Script':'GitHub Pages / arquivo externo'}</b> · versão ${esc(c.versao||'')}</div>
-    ${emGAS()?'':`<label class="f">URL do App da Web</label><input class="inp" id="iApi" value="${esc(apiUrl())}"><button class="btn sm" id="iApiS" style="margin-top:8px">Salvar URL neste navegador</button>`}
+    ${emGAS()||API_URL?'':`<label class="f">URL do App da Web</label><input class="inp" id="iApi" value="${esc(apiUrl())}"><button class="btn sm" id="iApiS" style="margin-top:8px">Salvar URL neste navegador</button>`}
     <label class="f">Banco de dados e arquivos</label><div class="toolbar" style="margin:0"><a class="btn sm" href="${esc(c.planilhaUrl||'#')}" target="_blank" rel="noopener">Abrir planilha</a><a class="btn sm" href="${esc(c.pastaUrl||'#')}" target="_blank" rel="noopener">Abrir pasta no Drive</a></div>
     <p class="hint">Cada informação fica em uma célula própria; textos muito longos são divididos automaticamente na aba "Blocos" (limite de 45 mil caracteres por célula).</p></div>
   <div class="card pad"><h3 class="sec-t" style="margin-top:0">${ic('wand')} Inteligência artificial (Google Gemini)</h3>
